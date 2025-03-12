@@ -46,7 +46,7 @@ enum ApiType {
     
 }
 
-class NetworkService {
+final class NetworkService {
     
     static let shared = NetworkService()
     

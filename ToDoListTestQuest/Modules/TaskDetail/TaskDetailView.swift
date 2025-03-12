@@ -17,8 +17,8 @@ class TaskDetailView: UIViewController  {
 
 }
 
-extension TaskDetailView: TaskDetailViewProtocol {
-    
-    var presenter: ToDoListPresenterProtocol?
-    
-}
+//extension TaskDetailView: TaskDetailViewProtocol {
+//    
+//    var presenter: ToDoListPresenterProtocol?
+//    
+//}

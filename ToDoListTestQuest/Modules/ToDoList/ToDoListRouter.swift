@@ -5,14 +5,14 @@
 //  Created by Егор Ершов on 07.03.2025.
 //
 
+import UIKit
+
 class ToDoListRouter: ToDoListRouterProtocol {
     
-    weak var view: ToDoListViewProtocol?
-    
-    static func createModule() -> ToDoListView {
+    static func createTodoListModule() -> ToDoListView {
         let view = ToDoListView()
-        let presenter = ToDoListPresenter()
-        let interactor = ToDoListInteractor()
+        let presenter: ToDoListPresenterProtocol & ToDoListInteractorOutputProtocol = ToDoListPresenter()
+        let interactor: ToDoListInteractorInputProtocol = ToDoListInteractor()
         let router = ToDoListRouter()
         
         view.presenter = presenter
@@ -20,13 +20,16 @@ class ToDoListRouter: ToDoListRouterProtocol {
         presenter.interactor = interactor
         presenter.router = router
         interactor.presenter = presenter
-        router.view = view
         
         return view
     }
     
-    func navigateToTaskDetail(with task: ToDoTaskEntity) {
-        let taskDetailView = TaskDetailRouter.createModule(with task: task)
+    func presentToDoDetailScreen(from view: ToDoListViewProtocol, for todo: ToDoTaskEntity) {
+        guard let prevView = view as? UIViewController else { fatalError("Invalid view type") }
+        
+        let taskDetailView = TaskDetailRouter.createModule(with: todo)
+        
+        prevView.navigationController?.pushViewController(taskDetailView, animated: true)
     }
     
 }

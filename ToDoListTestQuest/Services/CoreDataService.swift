@@ -15,7 +15,7 @@ final class CoreDataService {
     private init() {}
     
     private var context: NSManagedObjectContext {
-        AppDelegate().persistentContainer.viewContext
+        return AppDelegate.persistentContainer.viewContext
     }
     
     private func saveContext() {
@@ -28,11 +28,25 @@ final class CoreDataService {
         }
     }
     
+    func createTaskArray(from tasks: [TaskModel]) {
+        tasks.forEach { task in
+            let newTask = ToDoTaskEntity(context: self.context)
+            newTask.id = Int64(task.id)
+            newTask.title = task.title
+            newTask.desc = task.desc
+            newTask.completed = task.completed
+            newTask.createdAt = task.createdAt
+        }
+        print("Successfully saved tasks to CoreData")
+        self.saveContext()
+    }
+    
     func createTask(from task: ToDoTaskEntity) {
-        let newTask = ToDoTaskEntity(context: self.context)
-        newTask.id = Int64(task.id)
+        let context = self.context
+        let newTask = ToDoTaskEntity(context: context)
+        newTask.id = task.id
         newTask.title = task.title
-        newTask.desc = task.description
+        newTask.desc = task.desc
         newTask.completed = task.completed
         newTask.createdAt = task.createdAt
         self.saveContext()
@@ -49,12 +63,16 @@ final class CoreDataService {
     }
     
     func updateTask(to task: ToDoTaskEntity) {
-        self.saveContext()
+        if task.managedObjectContext != nil {
+            self.saveContext()
+        }
     }
     
     func deleteTask(_ task: ToDoTaskEntity) {
-        self.context.delete(task)
-        self.saveContext()
+        if task.managedObjectContext != nil {
+            self.context.delete(task)
+            self.saveContext()
+        }
     }
     
 }
