@@ -27,7 +27,7 @@ class ToDoListRouter: ToDoListRouterProtocol {
     func presentToDoDetailScreen(from view: ToDoListViewProtocol, for todo: ToDoTaskEntity) {
         guard let prevView = view as? UIViewController else { fatalError("Invalid view type") }
         
-        let taskDetailView = TaskDetailRouter.createModule(with: todo)
+        let taskDetailView = TaskDetailRouter.createDetailModule(with: todo)
         
         prevView.navigationController?.pushViewController(taskDetailView, animated: true)
     }

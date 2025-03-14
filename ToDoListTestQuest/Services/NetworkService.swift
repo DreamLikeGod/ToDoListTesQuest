@@ -59,10 +59,10 @@ final class NetworkService {
         
         do {
             let response = try JSONDecoder().decode(TaskResponse.self, from: data)
-            print("✅ Successfully fetched \(response.tasks.count) todos")
+            print("Successfully fetched \(response.tasks.count) todos")
             return response.tasks
         } catch {
-            print("❌ Decoding error: \(error)")
+            print("Decoding error: \(error)")
             throw error
         }
     }

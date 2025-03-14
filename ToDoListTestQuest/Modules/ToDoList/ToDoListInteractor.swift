@@ -10,6 +10,8 @@ class ToDoListInteractor: ToDoListInteractorInputProtocol {
     weak var presenter: ToDoListInteractorOutputProtocol?
     var networkService = NetworkService.shared
     var coreDataService = CoreDataService.shared
+    
+    var filter: String? = nil
 
     func retrieveTodos() {
         let tasks = coreDataService.fetchTasks()
@@ -19,7 +21,7 @@ class ToDoListInteractor: ToDoListInteractorInputProtocol {
                     let container = try await networkService.fetchTodos()
                     coreDataService.createTaskArray(from: container)
                     await MainActor.run {
-                        presenter?.didRetrieveTodos(coreDataService.fetchTasks())
+                        presenter?.didRetrieveTodos(filteringTasks(coreDataService.fetchTasks()))
                     }
                 } catch {
                     print("Fetching data error: \(error)")
@@ -29,18 +31,42 @@ class ToDoListInteractor: ToDoListInteractorInputProtocol {
                 }
             }
         } else {
-            presenter?.didRetrieveTodos(tasks)
+            presenter?.didRetrieveTodos(filteringTasks(tasks))
         }
     }
     
-    func saveTodo(_ todo: ToDoTaskEntity) {
-        coreDataService.createTask(from: todo)
-        presenter?.didAddTodo(todo)
+    func createTodo() {
+        let task = coreDataService.createTask()
+        presenter?.didAddTodo(task)
     }
     
     func deleteTodo(_ todo: ToDoTaskEntity) {
         coreDataService.deleteTask(todo)
-        presenter?.didRemoveTodo(todo)
+        presenter?.didRemoveTodo()
     }
     
+    func toggleTaskCompleted(_ todo: ToDoTaskEntity) {
+        todo.completed.toggle()
+        coreDataService.updateTask(to: todo)
+        presenter?.didToggledTaskCompleted()
+    }
+    
+    func searchTasks(by text: String?) {
+        if text == "" {
+            filter = nil
+        } else {
+            filter = text
+        }
+        presenter?.didSearchedTasks()
+    }
+    
+    func filteringTasks(_ tasks: [ToDoTaskEntity]) -> [ToDoTaskEntity] {
+        guard let filter = self.filter else { return tasks }
+        
+        return tasks.filter {
+            $0.title?.localizedCaseInsensitiveContains(filter) ?? false ||
+            $0.desc?.localizedCaseInsensitiveContains(filter) ?? false
+        }
+        
+    }
 }

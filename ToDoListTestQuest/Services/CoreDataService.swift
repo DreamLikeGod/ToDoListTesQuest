@@ -37,19 +37,18 @@ final class CoreDataService {
             newTask.completed = task.completed
             newTask.createdAt = task.createdAt
         }
-        print("Successfully saved tasks to CoreData")
         self.saveContext()
     }
     
-    func createTask(from task: ToDoTaskEntity) {
-        let context = self.context
-        let newTask = ToDoTaskEntity(context: context)
-        newTask.id = task.id
-        newTask.title = task.title
-        newTask.desc = task.desc
-        newTask.completed = task.completed
-        newTask.createdAt = task.createdAt
+    func createTask() -> ToDoTaskEntity {
+        let newTask = ToDoTaskEntity(context: self.context)
+        newTask.id = self.fetchTasks().last!.id
+        newTask.title = ""
+        newTask.desc = ""
+        newTask.completed = false
+        newTask.createdAt = Date()
         self.saveContext()
+        return newTask
     }
     
     func fetchTasks() -> [ToDoTaskEntity] {
