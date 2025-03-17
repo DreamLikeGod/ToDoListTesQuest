@@ -163,7 +163,6 @@ extension ToDoListView: ToDoListViewProtocol {
     func showError(with message: String) {
         print(message)
     }
-    
 }
 
 extension ToDoListView: UISearchBarDelegate {

@@ -8,7 +8,15 @@
 import Foundation
 import CoreData
 
-final class CoreDataService {
+protocol iCoreDataService {
+    func createTaskArray(from tasks: [TaskModel])
+    func createTask() -> ToDoTaskEntity
+    func fetchTasks() -> [ToDoTaskEntity]
+    func updateTask(to task: ToDoTaskEntity)
+    func deleteTask(_ task: ToDoTaskEntity)
+}
+
+final class CoreDataService: iCoreDataService {
     
     static let shared = CoreDataService()
     

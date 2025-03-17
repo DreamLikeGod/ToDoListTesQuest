@@ -46,7 +46,11 @@ enum ApiType {
     
 }
 
-final class NetworkService {
+protocol iNetworkService {
+    func fetchTodos() async throws -> [TaskModel]
+}
+
+final class NetworkService: iNetworkService {
     
     static let shared = NetworkService()
     

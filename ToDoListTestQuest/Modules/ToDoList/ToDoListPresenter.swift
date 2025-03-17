@@ -63,7 +63,6 @@ extension ToDoListPresenter: ToDoListInteractorOutputProtocol {
     }
     
     func didSearchedTasks() {
-        print("Search Interactor Output")
         interactor?.retrieveTodos()
     }
     

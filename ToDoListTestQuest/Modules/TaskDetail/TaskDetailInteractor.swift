@@ -9,7 +9,7 @@ class TaskDetailInteractor: TaskDetailInteractorInputProtocol {
     
     weak var presenter: TaskDetailInteractorOutputProtocol?
     var task: ToDoTaskEntity?
-    let coreData = CoreDataService.shared
+    var coreData: iCoreDataService = CoreDataService.shared
     
     required init(task: ToDoTaskEntity?) {
         self.task = task

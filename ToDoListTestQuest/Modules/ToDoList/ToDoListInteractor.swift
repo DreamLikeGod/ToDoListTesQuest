@@ -8,8 +8,8 @@
 class ToDoListInteractor: ToDoListInteractorInputProtocol {
     
     weak var presenter: ToDoListInteractorOutputProtocol?
-    var networkService = NetworkService.shared
-    var coreDataService = CoreDataService.shared
+    var networkService: iNetworkService = NetworkService.shared
+    var coreDataService: iCoreDataService = CoreDataService.shared
     
     var filter: String? = nil
 
@@ -21,7 +21,8 @@ class ToDoListInteractor: ToDoListInteractorInputProtocol {
                     let container = try await networkService.fetchTodos()
                     coreDataService.createTaskArray(from: container)
                     await MainActor.run {
-                        presenter?.didRetrieveTodos(filteringTasks(coreDataService.fetchTasks()))
+                        let result = filteringTasks(coreDataService.fetchTasks())
+                        presenter?.didRetrieveTodos(result)
                     }
                 } catch {
                     print("Fetching data error: \(error)")
