@@ -81,17 +81,24 @@ class ToDoListViewTableViewCell: UITableViewCell {
     }
     
     func setupCell(with task: ToDoTaskEntity) {
-        titleLabel.text = task.title == "" ? "Нет названия" : task.title
         descriptionLabel.text = task.desc == "" ? "Нет описания" : task.desc
         dateLabel.text = task.createdAt?.formattedDateString() ?? Date().formattedDateString()
         if task.completed {
             checkboxButton.isSelected = true
             checkboxButton.tintColor = .tintAppColor
+            titleLabel.text = ""
+            titleLabel.attributedText = NSAttributedString(string: (task.title == "") ? "Нет названия" : task.title!,
+                                                     attributes: [NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue,
+                                                                  NSAttributedString.Key.strikethroughColor : UIColor.completedColor.cgColor])
             titleLabel.textColor = .completedColor
             descriptionLabel.textColor = .completedColor
         } else {
             checkboxButton.isSelected = false
             checkboxButton.tintColor = .completedColor
+            titleLabel.text = ""
+            titleLabel.attributedText = NSAttributedString(string: (task.title == "") ? "Нет названия" : task.title!,
+                                                     attributes: [NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue,
+                                                                  NSAttributedString.Key.strikethroughColor : UIColor.clear.cgColor])
             titleLabel.textColor = .titleColor
             descriptionLabel.textColor = .descriptionColor
         }

@@ -64,6 +64,9 @@ final class ToDoListPresenterTests: XCTestCase {
         XCTAssertEqual(mockRouter.invokedPresentToDoDetailScreenTask.desc, testTask.desc)
         XCTAssertEqual(mockRouter.invokedPresentToDoDetailScreenTask.completed, testTask.completed)
         XCTAssertEqual(mockRouter.invokedPresentToDoDetailScreenTask.createdAt, testTask.createdAt)
+        
+        XCTAssertTrue(mockRouter.invokedPresentToDoDetailScreenView === mockView)
+        XCTAssertTrue(mockRouter.invokedPresentToDoDetailScreenView === sut.view)
     }
     
     func testAddTodo() {
@@ -146,6 +149,9 @@ final class ToDoListPresenterTests: XCTestCase {
         XCTAssertEqual(mockRouter.invokedPresentToDoDetailScreenTask.desc, testTask.desc)
         XCTAssertEqual(mockRouter.invokedPresentToDoDetailScreenTask.completed, testTask.completed)
         XCTAssertEqual(mockRouter.invokedPresentToDoDetailScreenTask.createdAt, testTask.createdAt)
+        
+        XCTAssertTrue(mockRouter.invokedPresentToDoDetailScreenView === mockView)
+        XCTAssertTrue(mockRouter.invokedPresentToDoDetailScreenView === sut.view)
     }
     
     func testDidRemoveTodo() {

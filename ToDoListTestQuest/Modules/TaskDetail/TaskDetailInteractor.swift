@@ -26,7 +26,7 @@ class TaskDetailInteractor: TaskDetailInteractorInputProtocol {
         presenter?.didSaveTask()
     }
     
-    func taskInfoUpdate(_ title: String? = nil, _ description: String? = nil) -> ToDoTaskEntity {
+    func taskInfoUpdate(_ title: String? = nil, _ description: String) -> ToDoTaskEntity {
         guard let taskUpdated = task else { return ToDoTaskEntity() }
         if let title = title {
             taskUpdated.title = title

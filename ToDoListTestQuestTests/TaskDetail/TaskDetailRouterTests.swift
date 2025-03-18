@@ -1,51 +1,44 @@
-//import XCTest
-//@testable import ToDoListTestQuest
-//
-//final class TaskDetailRouterTests: XCTestCase {
-//    var router: TaskDetailRouter!
-//    var mockView: MockTaskDetailView!
-//    var testTask: ToDoTaskEntity!
-//    
-//    override func setUp() {
-//        super.setUp()
-//        mockView = MockTaskDetailView()
-//        router = TaskDetailRouter()
-//        router.view = mockView
-//        
-//        testTask = ToDoTaskEntity()
-//        testTask.title = "Test Task"
-//        testTask.desc = "Test Description"
-//    }
-//    
-//    override func tearDown() {
-//        router = nil
-//        mockView = nil
-//        testTask = nil
-//        super.tearDown()
-//    }
-//    
-//    func testCreateDetailModule() {
-//        // When
-//        let view = TaskDetailRouter.createDetailModule(with: testTask)
-//        
-//        // Then
-//        XCTAssertNotNil(view)
-//        XCTAssertNotNil(view.presenter)
-//        XCTAssertNotNil((view.presenter as? TaskDetailPresenter)?.router)
-//        XCTAssertNotNil((view.presenter as? TaskDetailPresenter)?.interactor)
-//        XCTAssertNotNil((view.presenter as? TaskDetailPresenter)?.view)
-//        XCTAssertEqual((view.presenter as? TaskDetailPresenter)?.task?.title, testTask.title)
-//    }
-//    
-//    func testDissmissDetailModule() {
-//        // Given
-//        let navigationController = UINavigationController(rootViewController: mockView)
-//        
-//        // When
-//        router.dissmissDetailModule(from: mockView)
-//        
-//        // Then
-//        XCTAssertEqual(navigationController.viewControllers.count, 1)
-//        XCTAssertTrue(navigationController.viewControllers.first is MockTaskDetailView)
-//    }
-//} 
+import XCTest
+import CoreData
+@testable import ToDoListTestQuest
+
+final class TaskDetailRouterTests: XCTestCase {
+    var sut: TaskDetailRouter!
+    var testTask: ToDoTaskEntity!
+    
+    override func setUp() {
+        super.setUp()
+        sut = TaskDetailRouter()
+        
+        testTask = NSManagedObject(entity: ToDoListTestQuest.ToDoTaskEntity.entity(), insertInto: nil) as! ToDoListTestQuest.ToDoTaskEntity
+        testTask.id = Int64(1)
+        testTask.title = "Test"
+        testTask.desc = "TestDesc"
+        testTask.completed = false
+        testTask.createdAt = Date()
+    }
+    
+    override func tearDown() {
+        sut = nil
+        testTask = nil
+        super.tearDown()
+    }
+    
+    func testCreateDetailModule() {
+        // Given
+        // When
+        let view = TaskDetailRouter.createDetailModule(with: testTask)
+        
+        // Then
+        XCTAssertNotNil(view)
+        XCTAssertNotNil(view.presenter)
+        XCTAssertNotNil(view.presenter?.interactor)
+        XCTAssertNotNil(view.presenter?.router)
+        XCTAssertEqual(view.presenter?.interactor?.task, testTask)
+        XCTAssertEqual(view.presenter?.interactor?.task?.id, testTask.id)
+        XCTAssertEqual(view.presenter?.interactor?.task?.title, testTask.title)
+        XCTAssertEqual(view.presenter?.interactor?.task?.desc, testTask.desc)
+        XCTAssertEqual(view.presenter?.interactor?.task?.completed, testTask.completed)
+        XCTAssertEqual(view.presenter?.interactor?.task?.createdAt, testTask.createdAt)
+    }
+}

@@ -170,7 +170,7 @@ extension TaskDetailView: TaskDetailViewProtocol {
     
     func showTaskDetail(_ from: ToDoTaskEntity) {
         if from.title!.isEmpty {
-            self.titleTaskTextField.placeholder = "Нет названия"
+            self.titleTaskTextField.placeholder = "Название задачи"
         } else {
             self.titleTaskTextField.text = from.title
         }

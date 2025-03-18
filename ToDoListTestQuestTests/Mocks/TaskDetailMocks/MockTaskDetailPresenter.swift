@@ -20,8 +20,7 @@ class MockTaskDetailPresenter: TaskDetailPresenterProtocol, TaskDetailInteractor
     func updateTask(_ title: String?, _ description: String) {
         invokedUpdateTask = true
         invokedUpdateTaskCount += 1
-        invokedUpdateTaskParameters.title = title
-        invokedUpdateTaskParameters.description = description
+        invokedUpdateTaskParameters = (title, description)
     }
     
     var invokedExitFromScreen = false
@@ -30,8 +29,7 @@ class MockTaskDetailPresenter: TaskDetailPresenterProtocol, TaskDetailInteractor
     func exitFromScreen(_ title: String?, _ description: String) {
         invokedExitFromScreen = true
         invokedExitFromScreenCount += 1
-        invokedExitFromScreenParameters.title = title
-        invokedExitFromScreenParameters.description = description
+        invokedExitFromScreenParameters = (title, description)
     }
     
     var invokedDidUpdateTaskDetail = false

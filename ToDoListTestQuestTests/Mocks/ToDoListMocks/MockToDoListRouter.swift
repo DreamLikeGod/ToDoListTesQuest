@@ -14,10 +14,12 @@ class MockToDoListRouter: ToDoListRouterProtocol {
     
     var invokedPresentToDoDetailScreen = false
     var invokedPresentToDoDetailScreenCount = 0
+    var invokedPresentToDoDetailScreenView: ToDoListTestQuest.ToDoListViewProtocol!
     var invokedPresentToDoDetailScreenTask: ToDoListTestQuest.ToDoTaskEntity!
     func presentToDoDetailScreen(from view: ToDoListTestQuest.ToDoListViewProtocol, for todo: ToDoListTestQuest.ToDoTaskEntity) {
         invokedPresentToDoDetailScreen = true
         invokedPresentToDoDetailScreenCount += 1
+        invokedPresentToDoDetailScreenView = view
         invokedPresentToDoDetailScreenTask = todo
     }
 }
